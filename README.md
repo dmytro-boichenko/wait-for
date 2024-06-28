@@ -26,10 +26,12 @@ GLOBAL OPTIONS:
 ```
 
 For example:  
-&nbsp;&nbsp;&nbsp;```./wait-for -service mysql postgres```
+```shell
+./wait-for -service mysql -timeout 2 -limit 10
+```
 
-### Required environment variables:
-#### MySQL
+## Environment variables:
+### MySQL
 |Environment Variable|Description|Default value|
 | --- | --- | --- |
 |`DB_HOST`|Host|`localhost`|
@@ -37,17 +39,7 @@ For example:
 |`DB_USER`|Username|`user`|
 |`DB_PASSWORD`|Password|`password`|
 |`DB_NAME`|Database name|`db`|
-#### Elasticsearch
-|Environment Variable|Description|Default value|
-| --- | --- | --- |
-|`ELASTIC_HOST`|Host name with schema|`http://localhost`|
-|`ELASTIC_PORT`|Port|9200|
-#### Redis
-|Environment Variable|Description|Default value|
-| --- | --- | --- |
-|`REDIS_HOST`|Host|`localhost`|
-|`REDIS_PORT`|Port|6379|
-#### Postgres
+### Postgres
 |Environment Variable|Description|Default value|
 | --- | --- | --- |
 |`DB_HOST`|Host|`localhost`|
@@ -55,3 +47,13 @@ For example:
 |`DB_USER`|Username|`postgres`|
 |`DB_PASSWORD`|Password|`postgres`|
 |`DB_NAME`|Database name|`db`|
+### Elasticsearch
+|Environment Variable|Description|Default value|
+| --- | --- | --- |
+|`ELASTIC_HOST`|Host name with schema|`http://localhost`|
+|`ELASTIC_PORT`|Port|9200|
+### Redis
+|Environment Variable|Description|Default value|
+| --- | --- | --- |
+|`REDIS_HOST`|Host|`localhost`|
+|`REDIS_PORT`|Port|6379|
