@@ -1,7 +1,8 @@
 # CLI `wait-for` tool
 
 ## Preface
-The `wait-for` tool used for controlling docker-compose builds for correct waiting for required resources like databases.
+The `wait-for` tool used for controlling docker-compose builds and 
+correct waiting for required resources (like databases, services, etc.).
 
 The current implementation supports `MySQL`, `Postgres`, `Redis` and `Elasticsearch`.
 
