@@ -29,10 +29,7 @@ For example:
 ```shell
 ./wait-for -service mysql -timeout 2 -limit 10
 ```
-or
-```shell
-./wait-for -s mysql -t 2 -l 10
-```
+
 
 ## Environment variables:
 ### MySQL
