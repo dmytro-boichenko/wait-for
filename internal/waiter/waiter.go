@@ -5,8 +5,6 @@ import (
 	"log"
 	"os"
 	"time"
-
-	"github.com/pkg/errors"
 )
 
 const (
@@ -36,7 +34,7 @@ type waiter interface {
 func Wait(serviceName string, limitParam, timeoutParam int) (bool, error) {
 	c, ok := waiterConstructors[serviceName]
 	if !ok {
-		return false, errors.Errorf("Waiting for %s doesn't supported. %s", serviceName, NamesMessage())
+		return false, fmt.Errorf("waiting for %s doesn't supported. %s", serviceName, NamesMessage())
 	}
 
 	limit := getLimit(limitParam)

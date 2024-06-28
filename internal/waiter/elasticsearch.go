@@ -6,8 +6,6 @@ import (
 	"io"
 	"net/http"
 	"strings"
-
-	"github.com/pkg/errors"
 )
 
 const (
@@ -49,7 +47,7 @@ func (w ElasticsearchWaiter) waitFor() (bool, error) {
 	s := strings.TrimSpace(string(body))
 
 	if "green" != s && "yellow" != s {
-		return false, errors.Errorf("%s health is '%s'", w.name(), s)
+		return false, fmt.Errorf("%s health is '%s'", w.name(), s)
 	}
 
 	return true, nil

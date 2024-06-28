@@ -7,7 +7,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pkg/errors"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -49,7 +48,7 @@ func (w RedisWaiter) waitFor() (bool, error) {
 	s = strings.ToLower(s)
 
 	if s != "pong" {
-		return false, errors.Errorf("%s ping-pong reponse '%s'", w.name(), s)
+		return false, fmt.Errorf("%s ping-pong reponse '%s'", w.name(), s)
 	}
 
 	return true, nil
