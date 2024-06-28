@@ -1,4 +1,4 @@
-package main
+package waiter
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func getPostgresWaiter() waiter {
+func postgresWaiter() waiter {
 	host := envVar("DB_HOST", "localhost")
 	port := envVar("DB_PORT", "5432")
 	user := envVar("DB_USER", "postgres")
@@ -18,18 +18,18 @@ func getPostgresWaiter() waiter {
 	addr := fmt.Sprintf("%s:%s", host, port)
 	dbConn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", user, password, host, port, dbName)
 
-	return postgresWaiter{
+	return PostgresWaiter{
 		address:          addr,
 		connectionString: dbConn,
 	}
 }
 
-type postgresWaiter struct {
+type PostgresWaiter struct {
 	address          string
 	connectionString string
 }
 
-func (w postgresWaiter) waitFor() (bool, error) {
+func (w PostgresWaiter) waitFor() (bool, error) {
 	conn, err := net.Dial("tcp", w.address)
 	defer func(conn net.Conn) {
 		if conn != nil {
@@ -49,6 +49,6 @@ func (w postgresWaiter) waitFor() (bool, error) {
 	return true, nil
 }
 
-func (w postgresWaiter) name() string {
+func (w PostgresWaiter) name() string {
 	return "Postgres"
 }

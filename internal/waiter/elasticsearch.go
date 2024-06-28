@@ -1,4 +1,4 @@
-package main
+package waiter
 
 import (
 	"context"
@@ -14,22 +14,22 @@ const (
 	elasticHealthPath = "_cat/health?h=status"
 )
 
-func getElasticsearchWaiter() waiter {
+func elasticsearchWaiter() waiter {
 	host := envVar("ELASTIC_HOST", "http://localhost")
 	port := envVar("ELASTIC_PORT", "9200")
 
 	connectionString := fmt.Sprintf("%s:%s/%s", host, port, elasticHealthPath)
 
-	return elasticsearchWaiter{
+	return ElasticsearchWaiter{
 		connectionString: connectionString,
 	}
 }
 
-type elasticsearchWaiter struct {
+type ElasticsearchWaiter struct {
 	connectionString string
 }
 
-func (w elasticsearchWaiter) waitFor() (bool, error) {
+func (w ElasticsearchWaiter) waitFor() (bool, error) {
 	req, err := http.NewRequestWithContext(context.Background(), http.MethodGet, w.connectionString, nil)
 	if err != nil {
 		return false, err
@@ -55,6 +55,6 @@ func (w elasticsearchWaiter) waitFor() (bool, error) {
 	return true, nil
 }
 
-func (w elasticsearchWaiter) name() string {
+func (w ElasticsearchWaiter) name() string {
 	return "Elasticsearch"
 }

@@ -1,4 +1,4 @@
-package main
+package waiter
 
 import (
 	"database/sql"
@@ -8,7 +8,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func getMySQLWaiter() waiter {
+func mySQLWaiter() waiter {
 	host := envVar("DB_HOST", "localhost")
 	port := envVar("DB_PORT", "3306")
 	user := envVar("DB_USER", "user")
@@ -18,18 +18,18 @@ func getMySQLWaiter() waiter {
 	addr := fmt.Sprintf("%s:%s", host, port)
 	dbConn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, dbName)
 
-	return mySQLWaiter{
+	return MySQLWaiter{
 		address:          addr,
 		connectionString: dbConn,
 	}
 }
 
-type mySQLWaiter struct {
+type MySQLWaiter struct {
 	address          string
 	connectionString string
 }
 
-func (w mySQLWaiter) waitFor() (bool, error) {
+func (w MySQLWaiter) waitFor() (bool, error) {
 	conn, err := net.Dial("tcp", w.address)
 	defer func(conn net.Conn) {
 		if conn != nil {
@@ -60,6 +60,6 @@ func (w mySQLWaiter) waitFor() (bool, error) {
 	return true, nil
 }
 
-func (w mySQLWaiter) name() string {
+func (w MySQLWaiter) name() string {
 	return "MySQL"
 }

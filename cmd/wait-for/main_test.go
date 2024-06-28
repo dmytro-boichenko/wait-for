@@ -54,7 +54,7 @@ func TestPrepareResultMessage(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			actual := prepareResultMessage("test_waiter", tc.start, tc.ready)
+			actual := resultMessage("test_waiter", tc.start, tc.ready)
 			require.Equal(t, tc.result, actual)
 		})
 	}

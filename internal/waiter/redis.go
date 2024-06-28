@@ -1,4 +1,4 @@
-package main
+package waiter
 
 import (
 	"context"
@@ -13,20 +13,20 @@ import (
 
 const redisRequestTimeout = time.Second * 5
 
-func getRedisWaiter() waiter {
+func redisWaiter() waiter {
 	host := envVar("REDIS_HOST", "localhost")
 	port := envVar("REDIS_PORT", "6379")
 
-	return redisWaiter{
+	return RedisWaiter{
 		connectionString: fmt.Sprintf("%s:%s", host, port),
 	}
 }
 
-type redisWaiter struct {
+type RedisWaiter struct {
 	connectionString string
 }
 
-func (w redisWaiter) waitFor() (bool, error) {
+func (w RedisWaiter) waitFor() (bool, error) {
 	client := redis.NewClient(&redis.Options{
 		Addr: w.connectionString,
 	})
@@ -55,6 +55,6 @@ func (w redisWaiter) waitFor() (bool, error) {
 	return true, nil
 }
 
-func (w redisWaiter) name() string {
+func (w RedisWaiter) name() string {
 	return "Redis"
 }
