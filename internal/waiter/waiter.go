@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -86,5 +87,5 @@ func NamesMessage() string {
 	for k := range waiterConstructors {
 		values = append(values, k)
 	}
-	return fmt.Sprintf("Possible values are: %v", values)
+	return fmt.Sprintf("Supported: %v", strings.Join(values, ", "))
 }

@@ -21,12 +21,12 @@ var (
 func main() {
 	app := cli.App{
 		Name:  "wait-for",
-		Usage: "The wait-for tool is used for controlling in docker-compose builds for correct waiting for required resources like databases.",
+		Usage: "used for controlling in docker-compose builds for correct waiting for required resources like databases",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:     "service",
 				Aliases:  []string{"s"},
-				Usage:    fmt.Sprintf("service name. Mandatory. %s", waiter.NamesMessage()),
+				Usage:    fmt.Sprintf("service name. %s", waiter.NamesMessage()),
 				Required: true,
 			},
 			&cli.IntFlag{
