@@ -1,19 +1,28 @@
 # CLI `wait-for` tool
 
 ## Preface
-The tool is used for controlling in docker-compose builds for correct waiting for required resources like databases.
+The wait-for tool used for controlling docker-compose builds for correct waiting for required resources like databases.
 
 The current implementation supports MySQL, Postgres, Redis and Elasticsearch.
 
 ## Usage
 ```shell
-Usage of ./wait-for:
-  -limit int
-    	number of repeats (default 30)
-  -service string
-    	service name. Mandatory. Possible values are: [mysql elasticsearch redis]
-  -timeout int
-    	timeout in seconds between repeats (default 1)
+$ ./wait-for -h                                                                                                                                                                                                                                                        5s 23:12:16
+NAME:
+   wait-for - used for controlling in docker-compose builds for correct waiting for required resources like databases
+
+USAGE:
+   wait-for [global options] command [command options] 
+
+COMMANDS:
+   help, h  Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --service value, -s value  service name. Supported: mysql, elasticsearch, redis, postgres
+   --timeout value, -t value  timeout in seconds between repeats (default: 1)
+   --limit value, -l value    number of repeats (default: 30)
+   --help, -h                 show help
+
 ```
 
 For example:  
