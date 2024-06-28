@@ -1,13 +1,10 @@
 GOBIN    	:= $(GOPATH)/bin
 PATH     	:= $(GOBIN):$(PATH)
-GOLANGCI_VERSION=v1.55.2
+GOLANGCI_VERSION=v1.59.1
 CGO_ENABLED=0
 
 all: tools lint test
 
-PACKAGES := go list ./...
-
-## run the unit-tests
 test:
 	go test -v -cover -race ./...
 
@@ -17,7 +14,7 @@ tools:
 lint:
 	$(info Running Go code checkers and linters)
 	golangci-lint --version
-	golangci-lint $(V) run --timeout 5m
+	golangci-lint run
 
 build:
 	go build ./cmd/wait-for
