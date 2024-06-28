@@ -20,4 +20,4 @@ build:
 	go build ./cmd/wait-for
 
 
-.PHONY: all build test
+.PHONY: build test lint
