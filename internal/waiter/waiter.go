@@ -8,14 +8,6 @@ import (
 	"time"
 )
 
-const (
-	DefaultTimeout = time.Second
-	DefaultLimit   = 30
-
-	maximumTimeoutInSeconds = 180
-	maximumLimit            = 100
-)
-
 var (
 	waiterConstructors = map[string]constructor{
 		"mysql":         mySQLWaiter,
@@ -32,14 +24,11 @@ type waiter interface {
 	name() string
 }
 
-func Wait(serviceName string, limitParam, timeoutParam int) (bool, error) {
+func Wait(serviceName string, timeout time.Duration, limit int) (bool, error) {
 	c, ok := waiterConstructors[serviceName]
 	if !ok {
 		return false, fmt.Errorf("waiting for %s doesn't supported. %s", serviceName, NamesMessage())
 	}
-
-	limit := getLimit(limitParam)
-	timeout := getTimeout(timeoutParam)
 
 	w := c()
 	for i := 0; i < limit; i++ {
@@ -56,22 +45,6 @@ func Wait(serviceName string, limitParam, timeoutParam int) (bool, error) {
 	}
 
 	return false, nil
-}
-
-func getTimeout(t int) time.Duration {
-	if t > 0 && t < maximumTimeoutInSeconds {
-		return time.Duration(t) * time.Second
-	}
-
-	return DefaultTimeout
-}
-
-func getLimit(l int) int {
-	if l > 0 && l < maximumLimit {
-		return l
-	}
-
-	return DefaultLimit
 }
 
 func envVar(name, defaultValue string) string {

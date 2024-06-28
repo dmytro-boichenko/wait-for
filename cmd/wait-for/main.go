@@ -12,6 +12,14 @@ import (
 	"github.com/dmytro-boichenko/wait-for/internal/waiter"
 )
 
+const (
+	defaultTimeout = time.Second
+	defaultLimit   = 30
+
+	maximumTimeoutInSeconds = 180
+	maximumLimit            = 100
+)
+
 var (
 	serviceFlagName = "service"
 	timeoutFlagName = "timeout"
@@ -33,23 +41,23 @@ func main() {
 				Name:    "timeout",
 				Aliases: []string{"t"},
 				Usage:   "timeout in seconds between repeats",
-				Value:   int(waiter.DefaultTimeout.Seconds()),
+				Value:   int(defaultTimeout.Seconds()),
 			},
 			&cli.IntFlag{
 				Name:    "limit",
 				Aliases: []string{"l"},
 				Usage:   "number of repeats",
-				Value:   waiter.DefaultLimit,
+				Value:   defaultLimit,
 			},
 		},
 		Action: func(c *cli.Context) error {
 			service := c.String(serviceFlagName)
-			timeout := c.Int(timeoutFlagName)
-			limit := c.Int(limitFlagName)
 
 			start := time.Now()
+			t := timeout(c)
+			l := limit(c)
 
-			ready, err := waiter.Wait(service, timeout, limit)
+			ready, err := waiter.Wait(service, t, l)
 			if err != nil {
 				return err
 			}
@@ -68,6 +76,26 @@ func main() {
 	if err := app.Run(os.Args); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func timeout(c *cli.Context) time.Duration {
+	t := c.Int(timeoutFlagName)
+
+	if t > 0 && t < maximumTimeoutInSeconds {
+		return time.Duration(t) * time.Second
+	}
+
+	return defaultTimeout
+}
+
+func limit(c *cli.Context) int {
+	l := c.Int(limitFlagName)
+
+	if l > 0 && l < maximumLimit {
+		return l
+	}
+
+	return defaultLimit
 }
 
 func resultMessage(serviceName string, start time.Time, ready bool) string {
